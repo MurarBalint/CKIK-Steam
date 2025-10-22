@@ -1,4 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
+const { Model, DataTypes, ValidationError } = require("sequelize");
+
 
 const authUtils = require("../utilities/authUtils");
 
@@ -67,7 +68,16 @@ module.exports = (sequelize) =>
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
                 defaultValue: false,
-            }
+                validate: {
+                    isBoolean(value) {
+                        if (typeof value !== "boolean") {
+                        throw new ValidationError("The value must be a boolean (true/false)");
+                        }
+                    }
+                }
+            },
+
+
         },
 
         {
